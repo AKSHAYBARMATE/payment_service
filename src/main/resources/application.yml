@@ -17,7 +17,7 @@ spring:
     default-property-inclusion: non_null
 
 server:
-  port: 8080
+  port: 9090
 
 razorpay:
   key: ${RAZORPAY_KEY:rzp_test_SZ7kk4ZzBPrFXg}
