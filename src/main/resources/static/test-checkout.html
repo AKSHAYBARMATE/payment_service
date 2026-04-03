@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razorpay Payment Service Test</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f4efe8;
+            --panel: #fffaf4;
+            --text: #1f1a17;
+            --muted: #6d6158;
+            --accent: #8a4fff;
+            --accent-2: #ff7a59;
+            --border: #e9d8c5;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            background:
+                radial-gradient(circle at top left, rgba(138, 79, 255, 0.16), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(255, 122, 89, 0.18), transparent 32%),
+                var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 32px 16px;
+        }
+
+        .shell {
+            max-width: 960px;
+            margin: 0 auto;
+            display: grid;
+            gap: 20px;
+        }
+
+        .hero, .panel {
+            background: rgba(255, 250, 244, 0.9);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 12px 40px rgba(51, 34, 15, 0.08);
+            backdrop-filter: blur(8px);
+        }
+
+        h1, h2 {
+            margin: 0 0 12px;
+            font-weight: 700;
+        }
+
+        p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--muted);
+        }
+
+        input, textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 14px;
+            font-size: 15px;
+            background: #fff;
+            color: var(--text);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            border: none;
+            border-radius: 999px;
+            padding: 12px 18px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: transform 120ms ease, opacity 120ms ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+        }
+
+        .primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #fff;
+        }
+
+        .secondary {
+            background: #fff;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: #201a17;
+            color: #f8efe2;
+            border-radius: 18px;
+            padding: 18px;
+            min-height: 160px;
+            overflow: auto;
+        }
+
+        .steps {
+            margin-top: 16px;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <section class="hero">
+        <h1>Razorpay Checkout Test Page</h1>
+        <p>
+            Use this page to test the full backend flow: create order, open Razorpay Checkout,
+            capture the payment response, call verify, and inspect your saved transaction.
+        </p>
+        <div class="steps">
+            1. Fill the form and click <strong>Create Order</strong>.<br>
+            2. Click <strong>Pay Now</strong> after the order is created.<br>
+            3. Complete payment in Razorpay test mode.<br>
+            4. The page automatically calls <code>/api/payment/verify</code> and prints the result.
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Create Order</h2>
+        <div class="grid">
+            <div>
+                <label for="userId">User ID</label>
+                <input id="userId" value="user_1001">
+            </div>
+            <div>
+                <label for="amount">Amount</label>
+                <input id="amount" type="number" step="0.01" value="1499.00">
+            </div>
+            <div>
+                <label for="currency">Currency</label>
+                <input id="currency" value="INR">
+            </div>
+            <div>
+                <label for="paymentMethod">Payment Method Label</label>
+                <input id="paymentMethod" value="card">
+            </div>
+        </div>
+        <div class="grid">
+            <div>
+                <label for="description">Description</label>
+                <input id="description" value="Premium subscription payment">
+            </div>
+            <div>
+                <label for="customerName">Customer Name</label>
+                <input id="customerName" value="Rahul Sharma">
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input id="email" value="rahul@example.com">
+            </div>
+            <div>
+                <label for="contact">Contact</label>
+                <input id="contact" value="9876543210">
+            </div>
+        </div>
+        <div style="margin-top: 16px;">
+            <label for="metadata">Metadata</label>
+            <textarea id="metadata">{ "plan": "premium-monthly", "source": "web", "customerEmail": "rahul@example.com" }</textarea>
+        </div>
+        <div class="actions">
+            <button class="primary" id="createOrderBtn" type="button">Create Order</button>
+            <button class="secondary" id="payNowBtn" type="button" disabled>Pay Now</button>
+            <button class="secondary" id="fetchHistoryBtn" type="button">Fetch User History</button>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Response Console</h2>
+        <pre id="output">Waiting for action...</pre>
+    </section>
+</div>
+
+<script>
+    const state = {
+        orderResponse: null
+    };
+
+    const output = document.getElementById("output");
+
+    function print(label, data) {
+        output.textContent = label + "\n\n" + JSON.stringify(data, null, 2);
+    }
+
+    function getCreateOrderPayload() {
+        return {
+            userId: document.getElementById("userId").value.trim(),
+            amount: Number(document.getElementById("amount").value),
+            currency: document.getElementById("currency").value.trim(),
+            description: document.getElementById("description").value.trim(),
+            metadata: document.getElementById("metadata").value.trim()
+        };
+    }
+
+    async function createOrder() {
+        const payload = getCreateOrderPayload();
+        const response = await fetch("/api/payment/create-order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        print("Create Order Result", result);
+
+        if (!response.ok || !result.data) {
+            throw new Error(result.message || "Unable to create order");
+        }
+
+        state.orderResponse = result.data;
+        document.getElementById("payNowBtn").disabled = false;
+    }
+
+    async function verifyPayment(response) {
+        const payload = {
+            orderId: response.razorpay_order_id,
+            paymentId: response.razorpay_payment_id,
+            razorpaySignature: response.razorpay_signature,
+            paymentMethod: document.getElementById("paymentMethod").value.trim() || "card"
+        };
+
+        const verifyResponse = await fetch("/api/payment/verify", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const verifyResult = await verifyResponse.json();
+        print("Verify Payment Result", verifyResult);
+
+        if (!verifyResponse.ok) {
+            throw new Error(verifyResult.message || "Payment verification failed");
+        }
+    }
+
+    function openCheckout() {
+        if (!state.orderResponse) {
+            print("Checkout Error", { message: "Create an order before opening checkout." });
+            return;
+        }
+
+        const customerName = document.getElementById("customerName").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const contact = document.getElementById("contact").value.trim();
+
+        const options = {
+            key: state.orderResponse.razorpayKey,
+            amount: Math.round(Number(state.orderResponse.amount) * 100),
+            currency: state.orderResponse.currency,
+            name: "Payment Service Demo",
+            description: state.orderResponse.description,
+            order_id: state.orderResponse.orderId,
+            prefill: {
+                name: customerName,
+                email: email,
+                contact: contact
+            },
+            handler: async function (response) {
+                print("Razorpay Checkout Response", response);
+                try {
+                    await verifyPayment(response);
+                } catch (error) {
+                    print("Verification Error", { message: error.message });
+                }
+            },
+            modal: {
+                ondismiss: function () {
+                    print("Checkout Closed", {
+                        message: "Payment popup was closed before completion."
+                    });
+                }
+            },
+            theme: {
+                color: "#8a4fff"
+            }
+        };
+
+        const razorpay = new Razorpay(options);
+        razorpay.open();
+    }
+
+    async function fetchHistory() {
+        const userId = document.getElementById("userId").value.trim();
+        const response = await fetch("/api/payment/history/" + encodeURIComponent(userId));
+        const result = await response.json();
+        print("User Payment History", result);
+    }
+
+    document.getElementById("createOrderBtn").addEventListener("click", async function () {
+        try {
+            await createOrder();
+        } catch (error) {
+            print("Create Order Error", { message: error.message });
+        }
+    });
+
+    document.getElementById("payNowBtn").addEventListener("click", function () {
+        openCheckout();
+    });
+
+    document.getElementById("fetchHistoryBtn").addEventListener("click", async function () {
+        try {
+            await fetchHistory();
+        } catch (error) {
+            print("Fetch History Error", { message: error.message });
+        }
+    });
+</script>
+</body>
+</html>

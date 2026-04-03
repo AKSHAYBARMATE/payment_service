@@ -1,0 +1,139 @@
+{
+  "info": {
+    "name": "Razorpay Payment Service",
+    "_postman_id": "740e1a23-6f77-4c3c-81cc-b1cc4f4f92af",
+    "description": "Collection for testing the Spring Boot Razorpay payment service.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "userId",
+      "value": "user_1001"
+    },
+    {
+      "key": "orderId",
+      "value": ""
+    },
+    {
+      "key": "paymentId",
+      "value": ""
+    },
+    {
+      "key": "signature",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"amount\": 1499.00,\n  \"currency\": \"INR\",\n  \"description\": \"Premium subscription payment\",\n  \"metadata\": \"{\\\"plan\\\":\\\"premium-monthly\\\",\\\"source\\\":\\\"postman\\\",\\\"customerEmail\\\":\\\"rahul@example.com\\\"}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/payment/create-order",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "payment",
+            "create-order"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Verify Payment",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"paymentId\": \"{{paymentId}}\",\n  \"razorpaySignature\": \"{{signature}}\",\n  \"paymentMethod\": \"card\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/payment/verify",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "payment",
+            "verify"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Payment History By User",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/payment/history/{{userId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "payment",
+            "history",
+            "{{userId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Payment By Order ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/payment/order/{{orderId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "payment",
+            "order",
+            "{{orderId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get All Payments",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/payment/history",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "payment",
+            "history"
+          ]
+        }
+      }
+    }
+  ]
+}
