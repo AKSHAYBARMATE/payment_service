@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     environment {
-        COMPOSE_FILE = "docker-compose.commonmasterservice.yml"
+        COMPOSE_FILE = "docker-compose.payment-service.yml"
         REGISTRY_CONTAINER_NAME = "serviceregistry"
-        TARGET_SERVICE = "commonmasterservice"
-        TARGET_CONTAINER_NAME = "commonmasterservice"
-        TARGET_IMAGE_NAME = "commonmasterservice:latest"
+        TARGET_SERVICE = "payment-service"
+        TARGET_CONTAINER_NAME = "payment-service"
+        TARGET_IMAGE_NAME = "payment-service:latest"
     }
 
     stages {
