@@ -1,12 +1,12 @@
 services:
-  commonmasterservice:
+  payment-service:
     build:
       context: .
       dockerfile: Dockerfile
-    image: commonmasterservice:latest
-    container_name: commonmasterservice
+    image: payment-service:latest
+    container_name: payment-service
     ports:
-      - "8086:8086"
+      - "9090:9090"
     networks:
       - updated_orgadmin_rmscadminnetwork
     environment:
