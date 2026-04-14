@@ -22,6 +22,13 @@ public class CreateOrderRequest {
     @Size(max = 64, message = "User ID must not exceed 64 characters")
     private String userId;
 
+    @NotBlank(message = "School code is required")
+    @Size(max = 64, message = "School code must not exceed 64 characters")
+    private String schoolCode;
+
+    @NotNull(message = "Plan ID is required")
+    private Long planId;
+
     @NotNull(message = "Amount is required")
     @DecimalMin(value = "1.00", message = "Amount must be at least 1.00")
     private BigDecimal amount;

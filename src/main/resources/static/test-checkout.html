@@ -163,9 +163,19 @@
                 <input id="userId" value="user_1001">
             </div>
             <div>
+                <label for="schoolCode">School Code</label>
+                <input id="schoolCode" value="SCH-DEL-001">
+            </div>
+            <div>
+                <label for="planId">Plan ID</label>
+                <input id="planId" type="number" value="2">
+            </div>
+            <div>
                 <label for="amount">Amount</label>
                 <input id="amount" type="number" step="0.01" value="1499.00">
             </div>
+        </div>
+        <div class="grid">
             <div>
                 <label for="currency">Currency</label>
                 <input id="currency" value="INR">
@@ -224,6 +234,8 @@
     function getCreateOrderPayload() {
         return {
             userId: document.getElementById("userId").value.trim(),
+            schoolCode: document.getElementById("schoolCode").value.trim(),
+            planId: Number(document.getElementById("planId").value),
             amount: Number(document.getElementById("amount").value),
             currency: document.getElementById("currency").value.trim(),
             description: document.getElementById("description").value.trim(),

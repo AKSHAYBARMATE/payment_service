@@ -15,6 +15,14 @@
       "value": "user_1001"
     },
     {
+      "key": "schoolCode",
+      "value": "SCH-DEL-001"
+    },
+    {
+      "key": "planId",
+      "value": "2"
+    },
+    {
       "key": "orderId",
       "value": ""
     },
@@ -40,7 +48,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"amount\": 1499.00,\n  \"currency\": \"INR\",\n  \"description\": \"Premium subscription payment\",\n  \"metadata\": \"{\\\"plan\\\":\\\"premium-monthly\\\",\\\"source\\\":\\\"postman\\\",\\\"customerEmail\\\":\\\"rahul@example.com\\\"}\"\n}"
+          "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"schoolCode\": \"{{schoolCode}}\",\n  \"planId\": {{planId}},\n  \"amount\": 1499.00,\n  \"currency\": \"INR\",\n  \"description\": \"Premium subscription payment\",\n  \"metadata\": \"{\\\"source\\\":\\\"postman\\\",\\\"customerEmail\\\":\\\"rahul@example.com\\\"}\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/payment/create-order",

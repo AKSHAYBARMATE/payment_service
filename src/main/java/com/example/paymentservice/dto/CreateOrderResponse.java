@@ -1,6 +1,5 @@
 package com.example.paymentservice.dto;
 
-import com.example.paymentservice.enums.PaymentStatus;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,8 +15,12 @@ public class CreateOrderResponse {
     private String orderId;
     private String razorpayKey;
     private String userId;
+    private String schoolCode;
+    private String schoolName;
+    private Long planId;
+    private String planName;
     private BigDecimal amount;
     private String currency;
-    private PaymentStatus paymentStatus;
+    private String paymentStatus;
     private String description;
 }

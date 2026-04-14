@@ -2,7 +2,7 @@ package com.example.paymentservice.service;
 
 import com.example.paymentservice.dto.CreateOrderRequest;
 import com.example.paymentservice.dto.CreateOrderResponse;
-import com.example.paymentservice.dto.PaymentTransactionResponse;
+import com.example.paymentservice.dto.PaymentAuditTrailResponse;
 import com.example.paymentservice.dto.VerifyPaymentRequest;
 import java.util.List;
 
@@ -10,11 +10,11 @@ public interface PaymentService {
 
     CreateOrderResponse createOrder(CreateOrderRequest request);
 
-    PaymentTransactionResponse verifyPayment(VerifyPaymentRequest request);
+    PaymentAuditTrailResponse verifyPayment(VerifyPaymentRequest request);
 
-    List<PaymentTransactionResponse> getPaymentHistoryByUserId(String userId);
+    List<PaymentAuditTrailResponse> getPaymentHistoryByUserId(String userId);
 
-    PaymentTransactionResponse getPaymentByOrderId(String orderId);
+    PaymentAuditTrailResponse getPaymentByOrderId(String orderId);
 
-    List<PaymentTransactionResponse> getAllPayments();
+    List<PaymentAuditTrailResponse> getAllPayments();
 }

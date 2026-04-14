@@ -3,7 +3,7 @@ package com.example.paymentservice.controller;
 import com.example.paymentservice.dto.ApiResponse;
 import com.example.paymentservice.dto.CreateOrderRequest;
 import com.example.paymentservice.dto.CreateOrderResponse;
-import com.example.paymentservice.dto.PaymentTransactionResponse;
+import com.example.paymentservice.dto.PaymentAuditTrailResponse;
 import com.example.paymentservice.dto.VerifyPaymentRequest;
 import com.example.paymentservice.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,35 +40,35 @@ public class PaymentController {
 
     @PostMapping("/verify")
     @Operation(summary = "Verify Razorpay payment", description = "Verifies Razorpay signature, updates payment status, and stores payment details idempotently.")
-    public ResponseEntity<ApiResponse<PaymentTransactionResponse>> verifyPayment(
+    public ResponseEntity<ApiResponse<PaymentAuditTrailResponse>> verifyPayment(
             @Valid @RequestBody VerifyPaymentRequest request
     ) {
-        PaymentTransactionResponse response = paymentService.verifyPayment(request);
+        PaymentAuditTrailResponse response = paymentService.verifyPayment(request);
         return ResponseEntity.ok(ApiResponse.success("Payment verified successfully", response));
     }
 
     @GetMapping("/history/{userId}")
     @Operation(summary = "Get payment history by user", description = "Fetches all payment transactions for a given user in reverse chronological order.")
-    public ResponseEntity<ApiResponse<List<PaymentTransactionResponse>>> getPaymentHistoryByUserId(
+    public ResponseEntity<ApiResponse<List<PaymentAuditTrailResponse>>> getPaymentHistoryByUserId(
             @PathVariable String userId
     ) {
-        List<PaymentTransactionResponse> response = paymentService.getPaymentHistoryByUserId(userId);
+        List<PaymentAuditTrailResponse> response = paymentService.getPaymentHistoryByUserId(userId);
         return ResponseEntity.ok(ApiResponse.success("Payment history fetched successfully", response));
     }
 
     @GetMapping("/order/{orderId}")
     @Operation(summary = "Get payment by order ID", description = "Fetches a single payment transaction using the Razorpay order ID.")
-    public ResponseEntity<ApiResponse<PaymentTransactionResponse>> getPaymentByOrderId(
+    public ResponseEntity<ApiResponse<PaymentAuditTrailResponse>> getPaymentByOrderId(
             @PathVariable String orderId
     ) {
-        PaymentTransactionResponse response = paymentService.getPaymentByOrderId(orderId);
+        PaymentAuditTrailResponse response = paymentService.getPaymentByOrderId(orderId);
         return ResponseEntity.ok(ApiResponse.success("Payment fetched successfully", response));
     }
 
     @GetMapping("/history")
     @Operation(summary = "Get all payments", description = "Fetches the complete payment transaction history.")
-    public ResponseEntity<ApiResponse<List<PaymentTransactionResponse>>> getAllPayments() {
-        List<PaymentTransactionResponse> response = paymentService.getAllPayments();
+    public ResponseEntity<ApiResponse<List<PaymentAuditTrailResponse>>> getAllPayments() {
+        List<PaymentAuditTrailResponse> response = paymentService.getAllPayments();
         return ResponseEntity.ok(ApiResponse.success("All payments fetched successfully", response));
     }
 }
