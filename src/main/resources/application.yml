@@ -19,6 +19,15 @@ spring:
 server:
   port: 8080
 
+app:
+  invoice:
+    company-name: Sarvosmi School ERP Private Limited
+    company-gstin: 27ABCDE1234F1Z5
+    company-address-line1: 27 Innovation Park, Baner Road
+    company-address-line2: Pune, Maharashtra 411045
+    support-email: billing@sarvosmi.io
+    support-phone: +91-20-4600-7788
+
 razorpay:
   key: ${RAZORPAY_KEY:rzp_test_SZ7kk4ZzBPrFXg}
   secret: ${RAZORPAY_SECRET:hLv7QrOTq9OkmIqLYy9WHFJ7}
